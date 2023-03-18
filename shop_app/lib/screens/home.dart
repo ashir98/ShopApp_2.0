@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shop_app/constants/colors.dart';
+import 'package:shop_app/screens/products_screen.dart';
 import 'package:shop_app/widgets/appBar_icon.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:shop_app/widgets/product_card.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -25,6 +27,8 @@ class HomePage extends StatelessWidget {
         actions: [
           AppBarIconButton(icon: IconlyBold.user3)
         ],
+
+        elevation: 0,
       ),
 
       body: Padding(
@@ -117,7 +121,11 @@ class HomePage extends StatelessWidget {
                     Text("Latest products",style: TextStyle(fontSize: 22),),
                     IconButton(
                       onPressed: () {
-                        
+                        Navigator.push(context, PageTransition(
+                          child: ProductsScreen(),
+                          type: PageTransitionType.fade,
+                          duration: Duration(milliseconds: 300)
+                        ));
                       },
               
                       icon: Icon(IconlyBold.arrowRight2, color: lightIconsColor,size: 25,),
@@ -134,9 +142,11 @@ class HomePage extends StatelessWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return ProductCard();
+                  return ProductCard(
+                    cardColor: lightCardColor,
+                  );
                 },
-              )
+              ),
               
               
               

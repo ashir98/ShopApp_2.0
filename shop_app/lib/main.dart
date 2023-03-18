@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shop_app/screens/cateogries_screen.dart';
 import 'package:shop_app/screens/home.dart';
 
 void main(){
