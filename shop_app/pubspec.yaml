@@ -38,6 +38,7 @@ dependencies:
   flutter_iconly: ^1.0.2
   card_swiper: ^2.0.4
   page_transition: ^2.0.9
+  http: ^0.13.5
 
 dev_dependencies:
   flutter_test:

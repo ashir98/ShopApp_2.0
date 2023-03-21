@@ -1,16 +1,17 @@
+// ignore_for_file: file_names, prefer_typing_uninitialized_variables, must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/colors.dart';
 
 class AppBarIconButton extends StatelessWidget {
   IconData icon;
-  AppBarIconButton({ required this.icon ,super.key});
+  var onTap;
+  AppBarIconButton({required this.onTap, required this.icon ,super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           
@@ -19,7 +20,7 @@ class AppBarIconButton extends StatelessWidget {
         ),
 
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: Icon(icon, color: lightIconsColor,),
         ),
 

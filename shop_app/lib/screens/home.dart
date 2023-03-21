@@ -1,8 +1,10 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:shop_app/constants/colors.dart';
+import 'package:shop_app/screens/cateogries_screen.dart';
 import 'package:shop_app/screens/products_screen.dart';
+import 'package:shop_app/services/api_service.dart';
 import 'package:shop_app/widgets/appBar_icon.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -14,18 +16,34 @@ class HomePage extends StatelessWidget {
 
   List images = ["assets/images/1.jpg","assets/images/2.jpg","assets/images/3.jpg",];
 
+  ApiService apiService = ApiService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: lightScaffoldColor,
       appBar: AppBar(
-        title: Text("HOME"),
+        title: const Text("HOME"),
         centerTitle: true,
         leading: AppBarIconButton(
           icon: IconlyBold.category,
+          onTap: (){
+            Navigator.push(
+              context,
+              PageTransition(
+                child: const CategoriesScreen(),
+                type: PageTransitionType.fade
+              )
+            );
+          },
         ),
         actions: [
-          AppBarIconButton(icon: IconlyBold.user3)
+          AppBarIconButton(
+            icon: IconlyBold.user3,
+            onTap: (){
+
+            },
+          )
         ],
 
         elevation: 0,
@@ -34,7 +52,7 @@ class HomePage extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(
             children: [
               
@@ -50,7 +68,7 @@ class HomePage extends StatelessWidget {
                     },
                     icon: Icon(IconlyLight.search, color: lightIconsColor,),
                   ),
-                  contentPadding: EdgeInsets.all(10),
+                  contentPadding: const EdgeInsets.all(10),
                   filled: true,
                   fillColor: lightCardColor,
                   hintText: "Search products",
@@ -68,7 +86,7 @@ class HomePage extends StatelessWidget {
               
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.black12)
+                    borderSide: const BorderSide(color: Colors.black12)
                   )
                 ),
                 
@@ -81,7 +99,7 @@ class HomePage extends StatelessWidget {
                 height: 200,
                 child: Swiper(
                   
-                  physics: BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   autoplay: true,
                   autoplayDisableOnInteraction: true,
                   itemCount: images.length,
@@ -118,13 +136,13 @@ class HomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("Latest products",style: TextStyle(fontSize: 22),),
+                    const Text("Latest products",style: TextStyle(fontSize: 22),),
                     IconButton(
                       onPressed: () {
                         Navigator.push(context, PageTransition(
-                          child: ProductsScreen(),
+                          child:  ProductsScreen(),
                           type: PageTransitionType.fade,
-                          duration: Duration(milliseconds: 300)
+                          duration: const Duration(milliseconds: 300)
                         ));
                       },
               
@@ -134,19 +152,43 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              
-              
-              GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.65),
-                itemCount: 6,
+
+
+
+              FutureBuilder(
+                future: apiService.apiService(),
+
+                builder: (context, snapshot) {
+
+                  if(!snapshot.hasData){
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+
+                  }else{
+
+                    return               GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 0.65),
+                itemCount: apiService.productList.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ProductCard(
                     cardColor: lightCardColor,
+                    productName: snapshot.data![index].title.toString(),
+                    productimage: snapshot.data![index].image.toString(),
+                    productPrice: snapshot.data![index].price.toString(),
                   );
                 },
-              ),
+              );
+
+                  }
+                  
+                },
+              )
+              
+              
+
               
               
               

@@ -1,8 +1,7 @@
-import 'dart:math';
+
+// ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:shop_app/constants/colors.dart';
@@ -11,7 +10,10 @@ import 'package:shop_app/screens/product_detail.dart';
 class ProductCard extends StatelessWidget {
 
   Color cardColor;
-  ProductCard({ required this.cardColor,super.key});
+  String productimage;
+  String productName;
+  String productPrice;
+  ProductCard({required this.productName,required this.productimage ,required this.productPrice,required this.cardColor,super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class ProductCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("\$200"),
+                    Text("\$ $productPrice"),
                     Icon(IconlyBold.heart, color: lightIconsColor, size: 25,) 
                 
                   ],
@@ -51,12 +53,16 @@ class ProductCard extends StatelessWidget {
                 flex: 4,
                 child: Column(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.asset("assets/images/product.jpg"),
+                    SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(productimage , width: 50, height: 50,) ,
+                      ),
                     ),
-                    SizedBox(height: 8,),
-                    Text("Apple Iphone 14 Pro", style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),)
+                    const SizedBox(height: 8,),
+                   Text(productName, style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600, ) ,overflow: TextOverflow.ellipsis ,)
                   ],
                 )
               ),
