@@ -7,7 +7,7 @@ class ApiService{
 
   List<ProductsModel> productList = [];
 
-  Future<List<ProductsModel>> apiService()async{
+  Future<List<ProductsModel>> getProduct()async{
 
     var response = await http.get(Uri.parse("https://fakestoreapi.com/products"));
 
@@ -26,4 +26,46 @@ class ApiService{
 
 
   }
+
+
+
+
+
+
+
+
+
+
+  List categoryList= [];
+
+  Future getCategory()async{
+
+    var response = await http.get(Uri.parse("https://fakestoreapi.com/products/categories"));
+
+    if(response.statusCode ==200){
+
+      categoryList.add(response);
+      print(categoryList);
+
+    }
+
+
+  }
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

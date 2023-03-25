@@ -13,21 +13,13 @@ class ProductCard extends StatelessWidget {
   String productimage;
   String productName;
   String productPrice;
-  ProductCard({required this.productName,required this.productimage ,required this.productPrice,required this.cardColor,super.key});
+  var onTap;
+  ProductCard({required this.onTap ,required this.productName,required this.productimage ,required this.productPrice,required this.cardColor,super.key});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          PageTransition(
-            child: ProductDetailScreen(),
-            type: PageTransitionType.fade
-
-          )
-        );
-      },
+      onTap: onTap,
       child: Card(
         elevation: 0,
         color: cardColor,

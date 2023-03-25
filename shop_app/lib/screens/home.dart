@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/constants/colors.dart';
 import 'package:shop_app/screens/cateogries_screen.dart';
+import 'package:shop_app/screens/product_detail.dart';
 import 'package:shop_app/screens/products_screen.dart';
 import 'package:shop_app/services/api_service.dart';
 import 'package:shop_app/widgets/appBar_icon.dart';
@@ -156,13 +157,15 @@ class HomePage extends StatelessWidget {
 
 
               FutureBuilder(
-                future: apiService.apiService(),
+                future: apiService.getProduct(),
 
                 builder: (context, snapshot) {
 
                   if(!snapshot.hasData){
                     return Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: lightIconsColor,
+                      ),
                     );
 
                   }else{
@@ -178,6 +181,24 @@ class HomePage extends StatelessWidget {
                     productName: snapshot.data![index].title.toString(),
                     productimage: snapshot.data![index].image.toString(),
                     productPrice: snapshot.data![index].price.toString(),
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: ProductDetailScreen(
+                                      productName: snapshot.data![index].title.toString(),
+                                      productImage: snapshot.data![index].image.toString(),
+                                      productPrice: snapshot.data![index].price.toString(),
+                                      productCategory: snapshot.data![index].category.toString(),
+                                      productDesc: snapshot.data![index].description.toString(),
+                                      productRating: snapshot.data![index].rating!.rate.toString(),
+                                      productCount: snapshot.data![index].rating!.count.toString(),
+
+                                   ),
+                          type: PageTransitionType.fade
+                        )
+                      );
+                    },
                   );
                 },
               );
